@@ -1,0 +1,43 @@
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+using ll = long long;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    int n;
+    ll result = 0;
+
+    cin >> n;
+
+    vector<int> numbers(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> numbers[i];
+    }
+
+    sort(numbers.begin(), numbers.end());
+
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            int sum = numbers[i] + numbers[j];
+            int count = 0;
+
+            for (int k = j + 1; k < n; k++) {
+                if (numbers[k] < sum)
+                    count++;
+                else break;
+            }
+
+            result += count;
+        }
+    }
+
+    cout << result;
+
+    return 0;
+}
