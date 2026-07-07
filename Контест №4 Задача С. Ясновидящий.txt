@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+using ll = long long;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    int n;
+    cin >> n;
+
+    vector<ll>pref(n + 1, 0);
+    for (ll i = 1; i <= n; i++) {
+        ll change;
+        cin >> change;
+        pref[i] = pref[i - 1] + change;
+    }
+
+    ll min_price = pref[0];
+    ll min_day = 0;
+    ll max_profit = -1e18;
+    ll buy_day = -1, sell_day = -1;
+
+    for (ll i = 1; i <= n; i++) {
+        ll profit = pref[i] - min_price;
+        if (profit > max_profit) {
+            max_profit = profit;
+            buy_day = min_day + 1;
+            sell_day = i + 1;
+        }
+        if (pref[i] < min_price) {
+            min_price = pref[i];
+            min_day = i;
+        }
+    }
+
+    if (max_profit <= 0) cout << "-1 -1\n";
+    else cout << buy_day << ' ' << sell_day << endl;
+
+    return 0;
+}
