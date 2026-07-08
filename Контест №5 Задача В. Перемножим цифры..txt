@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#define all(x) x.begin(), x.end()
+using namespace std;
+using ll = long long;
+
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    ll t;
+    cin >> t;
+
+    vector<ll>numbers(t);
+    for (ll i = 0; i < t; i++) {
+        cin >> numbers[i];
+    }
+
+    for (ll i = 0; i < t; i++) {
+        ll x = numbers[i];
+        if (x == 1) {
+            cout << x << '\n';
+            continue;
+        }
+        if (x == 0) {
+            cout << 10 << '\n';
+            continue;
+        }
+
+
+        vector<ll>digits;
+        ll temp = x;
+        for (ll j = 9; j >= 2 ; j--) {
+            while (temp % j == 0) {
+                digits.push_back(j);
+                temp /= j;
+            }
+        }
+
+        if (temp > 1) cout << -1 << '\n';
+        else {
+            sort(all(digits));
+            for (ll d : digits) {
+                cout << d;
+            } cout << '\n';
+        }
+    }
+    return 0;
+}
