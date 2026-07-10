@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+using ll = long long;
+
+const ll inf = 1e18;
+
+struct Edge {
+    ll u, v, weight;
+};
+
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    ll n, m, s;
+    cin >> n >> m >> s;
+
+    vector<Edge> edges;
+    for (ll i = 0; i < m; i++) {
+        ll u, v, weight;
+        cin >> u >> v >> weight;
+        edges.push_back({u, v, weight});
+    }
+
+    vector<ll> dist(n + 1, inf);
+    dist[s] = 0;
+
+    for (ll i = 0; i < n - 1; i++) {
+        bool changed = false;
+        for (const Edge& e : edges) {
+            if (dist[e.u] != inf && dist[e.u] + e.weight < dist[e.v]) {
+                dist[e.v] = dist[e.u] + e.weight;
+                changed = true;
+            }
+        }
+        if (!changed) break;
+    }
+
+    for (const Edge& e : edges) {
+        if (dist[e.u] != inf && dist[e.u] + e.weight < dist[e.v]) {
+            cout << "Negative cycle\n";
+            return 0;
+        }
+    }
+
+    for (ll i = 1; i <= n; i++) {
+        if (dist[i] == inf) {
+            cout << "inf ";
+        }
+        else cout << dist[i] << ' ';
+    } cout << endl;
+
+    return 0;
+}
